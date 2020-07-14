@@ -1,5 +1,6 @@
 package com.company.Threads;
 
+import com.company.Helpers.ThreadHelper;
 import com.company.Models.IP;
 import com.company.Helpers.TalkerHelper;
 
@@ -20,8 +21,6 @@ public class IPReaderThread implements Runnable {
 
     @Override
     public void run() {
-
-        // TODO: Maybe implement faultCounter and reset everything when hit too much...
 
         for (;;)
         {
@@ -69,7 +68,8 @@ public class IPReaderThread implements Runnable {
                         talkerHelper.talkDebug(className, "IP address is null for offset " + offset + ", skipping.");
                     } else {
                         talkerHelper.talkDebug(this.className, IPAddress);
-                        new Thread(new IPScannerThread(IPAddress)).start();
+//                        new Thread(new IPScannerThread(IPAddress)).start();
+                        ThreadHelper.IPScannerThreadPoolExecutor.submit((new IPScannerThread(IPAddress)));
                     }
                 }
 

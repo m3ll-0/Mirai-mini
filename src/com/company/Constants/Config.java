@@ -7,6 +7,8 @@ public class Config {
     public static volatile int MAX_SSH_THREADS;
     public static volatile int GENERATE_IP_PER_LOOP;
 
+    public static volatile int IPSCANNER_THREADPOOL_MAX_THREADS;
+
     public static volatile int THREAD_SSH_LATENCY;
     public static volatile int THREAD_TELNET_LATENCY;
 
@@ -20,7 +22,4 @@ public class Config {
     public static volatile String DB_PASS;
 
     public static volatile int DB_THREAD_DELAY;
-
-
-
 }

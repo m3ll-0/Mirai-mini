@@ -66,8 +66,6 @@ public class Main {
         IPGeneratorThread.start();
         IPReaderThread.start();
         SSHVulnerableReporterThread.start();
-
-
     }
 
     /**

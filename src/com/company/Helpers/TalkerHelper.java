@@ -200,6 +200,7 @@ public class TalkerHelper {
         System.out.println("\n***** CONFIGURATION *****");
         System.out.println("MAX_TELNET_THREADS: " + Config.MAX_TELNET_THREADS);
         System.out.println("MAX_SSH_THREADS: " + Config.MAX_SSH_THREADS);
+        System.out.println("IPSCANNER_THREADPOOL_MAX_THREADS: " + Config.IPSCANNER_THREADPOOL_MAX_THREADS);
         System.out.println("GENERATE_IP_PER_LOOP: " + Config.GENERATE_IP_PER_LOOP);
         System.out.println("THREAD_SSH_LATENCY: " + Config.THREAD_SSH_LATENCY);
         System.out.println("THREAD_TELNET_LATENCY: " + Config.THREAD_TELNET_LATENCY);
