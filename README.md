@@ -5,7 +5,7 @@ Mirai botnet rewritten in Java. This project covers the bot-segment of Mirai and
 
 1. Download the project and open it in IntelliJ or download the binary in the list below. 
 2. Create the app.config file to supply as the mandatory config parameter (-c / --config)
-3. Adjust the settings. The only settings that need immediate change are the database values. Be warned: as of right now Mirai-mini only supports MariaDB. 
+3. Adjust the settings. The only settings that need immediate change are the database values. Warning: As of right now Mirai-mini only supports MariaDB. 
 4. Run & profit.
 
 app.config example:
@@ -15,7 +15,7 @@ app.config example:
 # 100 = low, 250 = medium, 500 = high, 1000 >=very high
 app.GENERATE_IP_PER_LOOP=400
 
-# The number of IP scanner threads in the thread pool.
+# The number of IP scanner threads in the thread pool
 app.IPSCANNER_THREADPOOL_MAX_THREADS=1000
 
 # The maximum number of concurrent SSH threads
