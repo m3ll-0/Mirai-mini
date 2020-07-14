@@ -128,6 +128,10 @@ public class ConfigHelper {
             {
                 loadConfig(commandLine.getOptionValue("config"));
             }
+            else
+            {
+                System.out.println("Error. Missing mandatory config parameter.");
+            }
         }
         catch (ParseException exception)
         {
