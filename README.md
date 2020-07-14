@@ -45,4 +45,6 @@ app.MARIADB_PASS=XXX
 
 ### Binaries
 
-This section will soon be updated.
+See the [releases] page to download the latest binaries.
+
+[releases]: <https://github.com/m3ll-0/Mirai-mini/releases>
