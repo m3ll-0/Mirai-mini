@@ -5,8 +5,8 @@ Mirai botnet rewritten in Java. This project covers the bot-segment of Mirai and
 
 1. Download the project and open it in IntelliJ or download the binary in the list below. 
 2. Create the app.config file to supply as the mandatory config parameter (-c / --config)
-3. Adjust the settings, the only settings that need immediate change are the database parameter. As of right now Mirai-mini only supports MariaDB. 
-4. Profit.
+3. Adjust the settings. The only settings that need immediate change are the database values. Be warned: as of right now Mirai-mini only supports MariaDB. 
+4. Run & profit.
 
 app.config example:
 
