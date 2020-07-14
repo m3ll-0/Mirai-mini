@@ -102,7 +102,7 @@ public class Main {
             System.exit(1);
         }
         else {
-            talkerHelper.talkDebug("MAIN", "Connection could be made with database. Server URL: " + Config.DB_SERVER_URL);
+            talkerHelper.talkDebug("MAIN", "Connection could be made with database. Server URL: " + Config.MARIADB_SERVER);
         }
     }
 }

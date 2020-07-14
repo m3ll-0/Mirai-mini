@@ -19,11 +19,12 @@ public class MariaDB {
             Class.forName("org.mariadb.jdbc.Driver");
 
             conn = DriverManager.getConnection(
-                    Config.DB_SERVER_URL, Config.DB_USER, Config.DB_PASS);
+                    "jdbc:mariadb://" + Config.MARIADB_SERVER + "/" + Config.MARIADB_DATABASE, Config.MARIADB_USER, Config.MARIADB_PASS);
         }
         catch (Exception e) {
             TalkerHelper talkerHelper = TalkerHelper.getInstance();
             talkerHelper.talkJavaError("MariaDB", e);
+            e.printStackTrace();
         }
 
         return conn;

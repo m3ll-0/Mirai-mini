@@ -64,9 +64,12 @@ public class ConfigHelper {
         String THREAD_SSH_LATENCY = prop.getProperty("app.THREAD_SSH_LATENCY");
         String THREAD_TELNET_SO_TIMEOUT = prop.getProperty("app.THREAD_TELNET_SO_TIMEOUT");
         String DB_THREAD_DELAY = prop.getProperty("app.DB_THREAD_DELAY");
-        String DB_SERVER_URL = prop.getProperty("app.DB_SERVER_URL");
-        String DB_USER = prop.getProperty("app.DB_USER");
-        String DB_PASS = prop.getProperty("app.DB_PASS");
+
+        String MARIADB_SERVER = prop.getProperty("app.MARIADB_SERVER");
+        String MARIADB_DATABASE = prop.getProperty("app.MARIADB_DATABASE");
+        String MARIADB_USER = prop.getProperty("app.MARIADB_USER");
+        String MARIADB_PASS = prop.getProperty("app.MARIADB_PASS");
+
         String SUPPRESS_OUTPUT = prop.getProperty("app.SUPPRESS_OUTPUT");
         String IPSCANNER_THREADPOOL_MAX_THREADS = prop.getProperty("app.IPSCANNER_THREADPOOL_MAX_THREADS");
 
@@ -79,13 +82,14 @@ public class ConfigHelper {
             if (THREAD_TELNET_SO_TIMEOUT != null) Config.THREAD_TELNET_SO_TIMEOUT = Integer.parseInt(THREAD_TELNET_SO_TIMEOUT); else throw new UnsupportedOperationException();
             if (DB_THREAD_DELAY != null) Config.DB_THREAD_DELAY = Integer.parseInt(DB_THREAD_DELAY); else throw new UnsupportedOperationException();
             if (SUPPRESS_OUTPUT != null) Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(SUPPRESS_OUTPUT); else throw new UnsupportedOperationException();
-            if (DB_SERVER_URL != null) Config.DB_SERVER_URL = DB_SERVER_URL; else throw new UnsupportedOperationException();
-            if (DB_USER != null) Config.DB_USER = DB_USER; else throw new UnsupportedOperationException();
-            if (DB_PASS != null) Config.DB_PASS = DB_PASS; else throw new UnsupportedOperationException();
+            if (MARIADB_SERVER != null) Config.MARIADB_SERVER = MARIADB_SERVER; else throw new UnsupportedOperationException();
+            if (MARIADB_DATABASE != null) Config.MARIADB_DATABASE = MARIADB_DATABASE; else throw new UnsupportedOperationException();
+            if (MARIADB_USER != null) Config.MARIADB_USER = MARIADB_USER; else throw new UnsupportedOperationException();
+            if (MARIADB_PASS != null) Config.MARIADB_PASS = MARIADB_PASS; else throw new UnsupportedOperationException();
         }
         catch (UnsupportedOperationException e)
         {
-            System.out.println("One or more values were not present in configuration file. See README for appropriate configuration variables. Exiting.");
+            System.out.println("One or more values were not present in configuration file. See README for the appropriate configuration variables. Exiting.");
             e.printStackTrace();
             System.exit(1);
         }

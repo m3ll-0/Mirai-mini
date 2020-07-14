@@ -206,9 +206,10 @@ public class TalkerHelper {
         System.out.println("THREAD_TELNET_LATENCY: " + Config.THREAD_TELNET_SO_TIMEOUT);
         System.out.println("SUPPRESS_OUTPUT: " + Config.SUPPRESS_OUTPUT);
         System.out.println("DB_THREAD_DELAY: " + Config.DB_THREAD_DELAY);
-        System.out.println("DB_SERVER_URL: " + Config.DB_SERVER_URL);
-        System.out.println("DB_USER: " + Config.DB_USER);
-        System.out.println("DB_PASS: " + "-Omitted-");
+        System.out.println("MARIADB_SERVER: " + Config.MARIADB_SERVER);
+        System.out.println("MARIADB_DATABASE: " + Config.MARIADB_DATABASE);
+        System.out.println("MARIADB_USER: " + Config.MARIADB_USER);
+        System.out.println("MARIADB_PASS: " + "-Omitted-");
 
         System.out.println(Color.RESET + "\n");
 
