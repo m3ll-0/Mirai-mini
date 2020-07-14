@@ -8,7 +8,6 @@ public class IPReaderThread implements Runnable {
 
     protected IP ip;
     protected TalkerHelper talkerHelper;
-
     private String className;
     private int prevLength;
 

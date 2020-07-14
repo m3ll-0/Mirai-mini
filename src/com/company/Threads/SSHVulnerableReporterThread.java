@@ -6,7 +6,10 @@ import com.company.Helpers.SSHVulnerableValidationHelper;
 import com.company.Helpers.TalkerHelper;
 import com.company.Models.Vulnerable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SSHVulnerableReporterThread implements Runnable {

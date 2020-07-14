@@ -62,8 +62,7 @@ public class IPScannerThread implements Runnable{
 
                         // Start multiple treads to iterate through keypair list.
                       new Thread(new AutoTelnetClientThread(IPaddress)).start();
-//                        MasterThread.submitToExecutor(ThreadTypes.TELNET_Pool_Thread, new AutoTelnetClientThread(IPaddress));
-                        talkerHelper.talkInfo(this.className, "Starting Telnet thread for server" + IPaddress);
+                      talkerHelper.talkInfo(this.className, "Starting Telnet thread for server" + IPaddress);
                     }
                 }
                 else

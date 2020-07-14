@@ -13,13 +13,6 @@ import com.company.Threads.SSHVulnerableReporterThread;
 import java.sql.Connection;
 import java.util.Scanner;
 
-// TODO
-// IDEAS:
-// Implement FTP
-// Implement StatisticsUpdaterThread, update statistics periodically by given session key generated at the start of the program which is updated frequently.
-// Implement maybe remote users, can insert not delete
-// Implement SSH command: Check if shell is present from output e.g. id command, then proceed to drop binary (trojan)
-
 public class Main {
 
     public static void main(String[] args) {

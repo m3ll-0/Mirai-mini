@@ -120,7 +120,6 @@ public class ConfigHelper {
 
         options.addOption(option_config_file);
 
-
         try
         {
             commandLine = parser.parse(options, args);

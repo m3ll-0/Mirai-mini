@@ -2,6 +2,11 @@ package com.company.Helpers;
 
 public class ExceptionHelper {
 
+    /**
+     * Returns an getUncaughtExceptionHandler so that the error within the thread can be logged
+     *
+     * @return
+     */
     public static Thread.UncaughtExceptionHandler getUncaughtExceptionHandler()
     {
         Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {

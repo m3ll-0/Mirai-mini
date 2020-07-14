@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class IP {
 
     protected volatile List<String> IPList = new ArrayList<>();
-//    protected ConcurrentLinkedQueue IPListQueue = new ConcurrentLinkedQueue();
 
     public IP()
     {

@@ -35,7 +35,6 @@ public class AutoTelnetClientThread implements Runnable {
     private void process()
     {
         // Get credentials
-//        MultiValuedMap<String, String> credentials = ipScannerHelper.retrieveTelnetCredentialsMap();
         List<Credential> credentialList = ipScannerHelper.retrieveTelnetCredentialsMap();
 
         Iterator it = credentialList.iterator();
