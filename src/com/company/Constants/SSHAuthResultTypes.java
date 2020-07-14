@@ -1,0 +1,11 @@
+package com.company.Constants;
+
+public enum SSHAuthResultTypes {
+
+    AUTHENTICATED,
+    ERROR_AUTH_FAIL,
+    ERROR_CONNECTION_CLOSED,
+    ERROR_CONNECTION_TIMEOUT,
+    ERROR_CONNECTION_RESET,
+    ERROR_UNKNOWN
+}
