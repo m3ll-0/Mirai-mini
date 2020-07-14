@@ -67,7 +67,7 @@ public class AutoTelnetClientTask implements Callable {
             telnet.connect(server, 23);
 
             // Set SO timeout
-            telnet.setSoTimeout(Config.THREAD_TELNET_LATENCY);
+            telnet.setSoTimeout(Config.THREAD_TELNET_SO_TIMEOUT);
 
             // Get input and output stream references
             in = telnet.getInputStream();

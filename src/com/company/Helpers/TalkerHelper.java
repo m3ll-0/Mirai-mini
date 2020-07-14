@@ -203,7 +203,7 @@ public class TalkerHelper {
         System.out.println("IPSCANNER_THREADPOOL_MAX_THREADS: " + Config.IPSCANNER_THREADPOOL_MAX_THREADS);
         System.out.println("GENERATE_IP_PER_LOOP: " + Config.GENERATE_IP_PER_LOOP);
         System.out.println("THREAD_SSH_LATENCY: " + Config.THREAD_SSH_LATENCY);
-        System.out.println("THREAD_TELNET_LATENCY: " + Config.THREAD_TELNET_LATENCY);
+        System.out.println("THREAD_TELNET_LATENCY: " + Config.THREAD_TELNET_SO_TIMEOUT);
         System.out.println("SUPPRESS_OUTPUT: " + Config.SUPPRESS_OUTPUT);
         System.out.println("DB_THREAD_DELAY: " + Config.DB_THREAD_DELAY);
         System.out.println("DB_SERVER_URL: " + Config.DB_SERVER_URL);

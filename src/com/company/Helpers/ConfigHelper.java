@@ -19,20 +19,6 @@ public class ConfigHelper {
         // Setup talker helper
         setupTalkerHelper();
 
-        // Setup program config variables
-        Config.GENERATE_IP_PER_LOOP = 100;
-        Config.MAX_SSH_THREADS = 3;
-        Config.MAX_TELNET_THREADS = 1;
-        Config.THREAD_SSH_LATENCY = 5000; // Milliseconds
-        Config.THREAD_TELNET_LATENCY = 7000; // Milliseconds
-        Config.DB_THREAD_DELAY = 20000;
-        Config.SUPPRESS_OUTPUT = false;
-
-        // Setup DB config variables
-        Config.DB_SERVER_URL = "jdbc:mariadb://192.168.2.2/mirai";
-        Config.DB_USER = "mirai";
-        Config.DB_PASS = "Jf7GX3GyX92oBp4";
-
         // Parse the CLI arguments after setting default configuration so they can be overwritten
         ConfigHelper.parseCLIArguments(args);
     }
@@ -76,25 +62,32 @@ public class ConfigHelper {
         String MAX_SSH_THREADS = prop.getProperty("app.MAX_SSH_THREADS");
         String MAX_TELNET_THREADS = prop.getProperty("app.MAX_TELNET_THREADS");
         String THREAD_SSH_LATENCY = prop.getProperty("app.THREAD_SSH_LATENCY");
-        String THREAD_TELNET_LATENCY = prop.getProperty("app.THREAD_TELNET_LATENCY");
+        String THREAD_TELNET_SO_TIMEOUT = prop.getProperty("app.THREAD_TELNET_SO_TIMEOUT");
         String DB_THREAD_DELAY = prop.getProperty("app.DB_THREAD_DELAY");
         String DB_SERVER_URL = prop.getProperty("app.DB_SERVER_URL");
         String DB_USER = prop.getProperty("app.DB_USER");
         String DB_PASS = prop.getProperty("app.DB_PASS");
         String SUPPRESS_OUTPUT = prop.getProperty("app.SUPPRESS_OUTPUT");
+        String IPSCANNER_THREADPOOL_MAX_THREADS = prop.getProperty("app.IPSCANNER_THREADPOOL_MAX_THREADS");
 
         try {
-            if (GENERATE_IP_PER_LOOP != null) Config.GENERATE_IP_PER_LOOP = Integer.parseInt(GENERATE_IP_PER_LOOP);
-            if (MAX_SSH_THREADS != null) Config.MAX_SSH_THREADS = Integer.parseInt(MAX_SSH_THREADS);
-            if (MAX_TELNET_THREADS != null) Config.MAX_TELNET_THREADS = Integer.parseInt(MAX_TELNET_THREADS);
-            if (THREAD_SSH_LATENCY != null) Config.THREAD_SSH_LATENCY = Integer.parseInt(THREAD_SSH_LATENCY);
-            if (THREAD_TELNET_LATENCY != null) Config.THREAD_TELNET_LATENCY = Integer.parseInt(THREAD_TELNET_LATENCY);
-            if (DB_THREAD_DELAY != null) Config.DB_THREAD_DELAY = Integer.parseInt(DB_THREAD_DELAY);
-            if (SUPPRESS_OUTPUT != null) Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(SUPPRESS_OUTPUT);
-            if (DB_SERVER_URL != null) Config.DB_SERVER_URL = DB_SERVER_URL;
-            if (DB_USER != null) Config.DB_USER = DB_USER;
-            if (DB_PASS != null) Config.DB_PASS = DB_PASS;
-
+            if (GENERATE_IP_PER_LOOP != null) Config.GENERATE_IP_PER_LOOP = Integer.parseInt(GENERATE_IP_PER_LOOP); else throw new UnsupportedOperationException();
+            if (MAX_SSH_THREADS != null) Config.MAX_SSH_THREADS = Integer.parseInt(MAX_SSH_THREADS); else throw new UnsupportedOperationException();;
+            if (IPSCANNER_THREADPOOL_MAX_THREADS != null) Config.IPSCANNER_THREADPOOL_MAX_THREADS = Integer.parseInt(IPSCANNER_THREADPOOL_MAX_THREADS); else throw new UnsupportedOperationException();
+            if (MAX_TELNET_THREADS != null) Config.MAX_TELNET_THREADS = Integer.parseInt(MAX_TELNET_THREADS); else throw new UnsupportedOperationException();
+            if (THREAD_SSH_LATENCY != null) Config.THREAD_SSH_LATENCY = Integer.parseInt(THREAD_SSH_LATENCY); else throw new UnsupportedOperationException();
+            if (THREAD_TELNET_SO_TIMEOUT != null) Config.THREAD_TELNET_SO_TIMEOUT = Integer.parseInt(THREAD_TELNET_SO_TIMEOUT); else throw new UnsupportedOperationException();
+            if (DB_THREAD_DELAY != null) Config.DB_THREAD_DELAY = Integer.parseInt(DB_THREAD_DELAY); else throw new UnsupportedOperationException();
+            if (SUPPRESS_OUTPUT != null) Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(SUPPRESS_OUTPUT); else throw new UnsupportedOperationException();
+            if (DB_SERVER_URL != null) Config.DB_SERVER_URL = DB_SERVER_URL; else throw new UnsupportedOperationException();
+            if (DB_USER != null) Config.DB_USER = DB_USER; else throw new UnsupportedOperationException();
+            if (DB_PASS != null) Config.DB_PASS = DB_PASS; else throw new UnsupportedOperationException();
+        }
+        catch (UnsupportedOperationException e)
+        {
+            System.out.println("One or more values were not present in configuration file. See README for appropriate configuration variables. Exiting.");
+            e.printStackTrace();
+            System.exit(1);
         }
         catch (Exception e)
         {
@@ -112,7 +105,7 @@ public class ConfigHelper {
         CommandLine commandLine;
 
         Option option_config_file = Option.builder("c")
-                .required(false)
+                .required(true)
                 .hasArg()
                 .desc("Specifies the config file to be used.")
                 .longOpt("config")
