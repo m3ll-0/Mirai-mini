@@ -123,20 +123,17 @@ public class ConfigHelper {
         try
         {
             commandLine = parser.parse(options, args);
-
+            
             if (commandLine.hasOption("config"))
             {
                 loadConfig(commandLine.getOptionValue("config"));
-            }
-            else
-            {
-                System.out.println("Error. Missing mandatory config parameter.");
             }
         }
         catch (ParseException exception)
         {
             System.out.print("Parse error: ");
             System.out.println(exception.getMessage());
+            System.exit(1);
         }
     }
 
