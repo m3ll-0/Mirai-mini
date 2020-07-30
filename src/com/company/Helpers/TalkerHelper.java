@@ -258,6 +258,7 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "[IP Statistics]");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's generated: " + Statistics.totalIPGenerated);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's up: " + Statistics.totalIPUp);
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's scanned: " + Statistics.totalIPScanned);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's found with with Telnet port open: " + Statistics.totalIPTelnetPortsOpen);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's found with with SSH port open: " + Statistics.totalIPSSHPortOpen);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "---------------------------------------------------------------------------------");

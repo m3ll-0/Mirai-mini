@@ -8,7 +8,12 @@ import com.company.Helpers.SSHManagerHelper;
 import com.company.Helpers.TalkerHelper;
 import com.company.Models.Vulnerable;
 import com.company.Threads.ReporterThread;
+import com.sun.deploy.util.SystemUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -22,8 +27,9 @@ public class AutoSSHClientTask implements Callable<Void> {
     private TalkerHelper talkerHelper;
     private ExecutorService executorService;
     private DAOFactory daoFactory;
-    private int errorCounter = 0;
     private SSHVulnerableValidationHelper sshVulnerableValidationHelper;
+    private int errorCounter = 0;
+    private boolean directShellAccess = false;
 
     public AutoSSHClientTask(String server, String user, String pass, ExecutorService executorService)
     {
@@ -101,7 +107,7 @@ public class AutoSSHClientTask implements Callable<Void> {
         }
         else {
             // Check for false positive
-            if (isFalsePositive(instance))
+            if (isFalsePositive(instance) == FalsePositives.FALSE_POSITIVES_YES)
             {
                 return SSHAuthResultTypes.ERROR_FALSE_POSITIVE;
             }
@@ -120,18 +126,60 @@ public class AutoSSHClientTask implements Callable<Void> {
      * @param sshManagerHelper
      * @return
      */
-    private boolean isFalsePositive(SSHManagerHelper sshManagerHelper)
+    private FalsePositives isFalsePositive(SSHManagerHelper sshManagerHelper)
     {
         // Check if you can send command
-        String commandResult = sshManagerHelper.sendCommand("ls");
+        String commandResult = sshManagerHelper.sendCommand("id");
 
-        if(commandResult.equals("\nPlease login: "))
+        // Search for faulty strings
+        if(
+                commandResult.equals("\nPlease login: ")
+                || commandResult.equals("error")
+                || commandResult.equals("")
+                || commandResult.contains("sshd listensocks[15]")
+                || commandResult.contains("Invalid argument")
+        )
         {
             talkerHelper.talkGreatError(className, Config.MESSAGE_PREDICATE_SSH+"False positive detected for server " + server + " with credentials " + user + "/" + pass+".");
-            return true;
+            sshManagerHelper.close();
+            return FalsePositives.FALSE_POSITIVES_YES;
+        }
+        else{
+
+            // Check if we have direct shell access
+            if(commandResult.contains("uid="))
+            {
+                this.directShellAccess = true;
+                talkerHelper.talkGreatSuccess(className, Config.MESSAGE_PREDICATE_SSH+"Direct shell detected for server " + server + " with credentials " + user + "/" + pass + "!");
+            }
+
+            //TODO
+            // Write to file REMOVE
+            if(System.getProperty("os.name").toLowerCase().contains("windows"))
+            {
+                try {
+                    String toWrite = server + " | " + user + " | " + pass + " | " + commandResult.toString().replace("\\", "*") + "\n";
+                    Files.write(Paths.get("C:/a/logger.txt"), toWrite.getBytes(), StandardOpenOption.APPEND);
+                }catch (IOException e) {
+                    //exception handling left as an exercise for the reader
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+            else
+            {
+                try {
+                    String toWrite = server + " | " + user + " | " + pass + " | " + commandResult.toString().replace("\\", "*") + "\n";
+                    Files.write(Paths.get("/tmp/logger"), toWrite.getBytes(), StandardOpenOption.APPEND);
+                }catch (IOException e) {
+                    //exception handling left as an exercise for the reader
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
         }
 
-        return false;
+        return FalsePositives.FALSE_POSITIVES_NO;
     }
 
     /**
@@ -166,7 +214,7 @@ public class AutoSSHClientTask implements Callable<Void> {
      */
     private void sendToReporter()
     {
-        Vulnerable vulnerable = new Vulnerable(server, user, pass, "SSH", new Timestamp(System.currentTimeMillis()));
+        Vulnerable vulnerable = new Vulnerable(server, user, pass, "SSH", new Timestamp(System.currentTimeMillis()), directShellAccess);
         SSHVulnerableValidationHelper.insert(vulnerable);
     }
 

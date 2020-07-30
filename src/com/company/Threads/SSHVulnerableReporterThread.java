@@ -53,7 +53,7 @@ public class SSHVulnerableReporterThread implements Runnable {
                     String server = entry.getKey();
                     Long serverCount = entry.getValue();
 
-                    // Check if server count is 3 TODO: Check for right combo.
+                    // Check if server count is 3
                     if (serverCount > 1) {
                         // Statistics
                         Statistics.totalFalsePositiveSSHServer++;

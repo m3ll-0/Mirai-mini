@@ -4,11 +4,11 @@
     <root id="archive" name="Mirai-mini.jar">
       <element id="module-output" name="Mirai-mini" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/mariadb-java-client-2.6.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/apache-commons-net.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-io-2.7.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-collections4-4.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsch-0.1.55.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-cli-1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-net-1.4.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

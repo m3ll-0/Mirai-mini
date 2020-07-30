@@ -5,6 +5,7 @@ public class Statistics {
     // IP statistics
     public static volatile long totalIPGenerated = 0;
     public static volatile long totalIPUp = 0;
+    public static volatile long totalIPScanned = 0;
     public static volatile long totalIPTelnetPortsOpen = 0;
     public static volatile long totalIPSSHPortOpen = 0;
 

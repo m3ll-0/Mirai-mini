@@ -23,6 +23,7 @@ public class AutoTelnetClientTask implements Callable {
     private String user;
     private String pass;
     private String className;
+    private boolean directShellAccess = false;
 
     private InputStream in;
     private PrintStream out;
@@ -271,6 +272,10 @@ public class AutoTelnetClientTask implements Callable {
         if(loginType == TelnetLoginTypes.DIRECT_SHELL)
         {
             talkerHelper.talkGreatSuccess(className, Config.MESSAGE_PREDICATE_TELNET + "<"+ loginType +"> " +"Telnet server " + server + " authentication WITHOUT credentials " + user + "/" + pass + " succeeded (direct shell)!");
+
+            // TODO: Implement feature to detect and exhaust output of command 'id'
+            //            this.directShellAccess = true;
+
             this.handleShutdown(true);
 
             // Statistics
@@ -340,10 +345,9 @@ public class AutoTelnetClientTask implements Callable {
      */
     private void sendToReporter()
     {
-        Vulnerable vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()));
+        Vulnerable vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()), directShellAccess);
 
         // Start reporter thread to save into DB
         new Thread(new ReporterThread(vulnerable)).start();
     }
-
 }

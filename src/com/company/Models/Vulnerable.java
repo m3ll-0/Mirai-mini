@@ -9,13 +9,15 @@ public class Vulnerable {
     private String password;
     private String protocol_type;
     private Timestamp time_discovered;
+    private boolean directShellAccess;
 
-    public Vulnerable(String server, String user, String password, String protocol_type, Timestamp time_discovered) {
+    public Vulnerable(String server, String user, String password, String protocol_type, Timestamp time_discovered, Boolean directShellAccess) {
         this.server = server;
         this.user = user;
         this.password = password;
         this.protocol_type = protocol_type;
         this.time_discovered = time_discovered;
+        this.directShellAccess = directShellAccess;
     }
 
     public String getServer() {
@@ -56,5 +58,13 @@ public class Vulnerable {
 
     public void setTime_discovered(Timestamp time_discovered) {
         this.time_discovered = time_discovered;
+    }
+
+    public Boolean getDirectShellAccess() {
+        return directShellAccess;
+    }
+
+    public void setDirectShellAccess(Boolean directShellAccess) {
+        this.directShellAccess = directShellAccess;
     }
 }

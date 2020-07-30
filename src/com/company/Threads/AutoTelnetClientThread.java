@@ -52,7 +52,14 @@ public class AutoTelnetClientThread implements Runnable {
             String pass = credential.getPassword();
 
             talkerHelper.talkInfo(this.className, "Starting Telnet task " + "[" + mapCounter + "/" + mapLength + "]" + " for server " + server + " with credentials: " + user + "/" + pass);
-            executor.submit(new AutoTelnetClientTask(server, user, pass, executor));
+
+            try {
+                executor.submit(new AutoTelnetClientTask(server, user, pass, executor));
+            }
+            catch (Exception e)
+            {
+                talkerHelper.talkJavaError(className, e);
+            }
 
             mapCounter++;
         }

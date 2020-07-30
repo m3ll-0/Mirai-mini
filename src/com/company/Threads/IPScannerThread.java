@@ -77,5 +77,9 @@ public class IPScannerThread implements Runnable{
             talkerHelper.talkError(this.className, "IP Address (" + IPaddress + ") appears to be down.");
             return;
         }
+
+        // Statistics
+        Statistics.totalIPScanned++;
     }
+
 }
