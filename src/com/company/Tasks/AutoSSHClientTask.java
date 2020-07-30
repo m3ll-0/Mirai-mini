@@ -153,30 +153,7 @@ public class AutoSSHClientTask implements Callable<Void> {
                 talkerHelper.talkGreatSuccess(className, Config.MESSAGE_PREDICATE_SSH+"Direct shell detected for server " + server + " with credentials " + user + "/" + pass + "!");
             }
 
-            //TODO
-            // Write to file REMOVE
-            if(System.getProperty("os.name").toLowerCase().contains("windows"))
-            {
-                try {
-                    String toWrite = server + " | " + user + " | " + pass + " | " + commandResult.toString().replace("\\", "*") + "\n";
-                    Files.write(Paths.get("C:/a/logger.txt"), toWrite.getBytes(), StandardOpenOption.APPEND);
-                }catch (IOException e) {
-                    //exception handling left as an exercise for the reader
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-            }
-            else
-            {
-                try {
-                    String toWrite = server + " | " + user + " | " + pass + " | " + commandResult.toString().replace("\\", "*") + "\n";
-                    Files.write(Paths.get("/tmp/logger"), toWrite.getBytes(), StandardOpenOption.APPEND);
-                }catch (IOException e) {
-                    //exception handling left as an exercise for the reader
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-            }
+            // TODO debug commandOutput
         }
 
         return FalsePositives.FALSE_POSITIVES_NO;
