@@ -62,6 +62,7 @@ public class ConfigHelper {
         String MAX_SSH_THREADS = prop.getProperty("app.MAX_SSH_THREADS");
         String MAX_TELNET_THREADS = prop.getProperty("app.MAX_TELNET_THREADS");
         String THREAD_SSH_LATENCY = prop.getProperty("app.THREAD_SSH_LATENCY");
+        String THREAD_SSH_SO_TIMEOUT = prop.getProperty("app.THREAD_SSH_SO_TIMEOUT");
         String THREAD_TELNET_SO_TIMEOUT = prop.getProperty("app.THREAD_TELNET_SO_TIMEOUT");
         String DB_THREAD_DELAY = prop.getProperty("app.DB_THREAD_DELAY");
 
@@ -86,6 +87,7 @@ public class ConfigHelper {
             if (MARIADB_DATABASE != null) Config.MARIADB_DATABASE = MARIADB_DATABASE; else throw new UnsupportedOperationException();
             if (MARIADB_USER != null) Config.MARIADB_USER = MARIADB_USER; else throw new UnsupportedOperationException();
             if (MARIADB_PASS != null) Config.MARIADB_PASS = MARIADB_PASS; else throw new UnsupportedOperationException();
+            if (THREAD_SSH_SO_TIMEOUT != null) Config.THREAD_SSH_SO_TIMEOUT = Integer.parseInt(THREAD_SSH_SO_TIMEOUT); else throw new UnsupportedOperationException();
         }
         catch (UnsupportedOperationException e)
         {

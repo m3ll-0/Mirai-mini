@@ -11,6 +11,8 @@ public class Config {
 
     public static volatile int THREAD_SSH_LATENCY;
     public static volatile int THREAD_TELNET_SO_TIMEOUT;
+    public static volatile int THREAD_SSH_SO_TIMEOUT;
+
 
     public static volatile boolean SUPPRESS_OUTPUT = false;
     public static volatile String MESSAGE_PREDICATE_SSH = "{SSH} ";

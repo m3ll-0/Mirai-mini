@@ -57,7 +57,7 @@ public class AutoSSHClientTask implements Callable<Void> {
             Statistics.totalVulnerableSSHServer++;
 
             // Shutdown remaining threads
-            handleShutdown(true);
+            handleShutdown(SSHAuthResultTypes.AUTHENTICATED);
         } else if (authenticationResult == SSHAuthResultTypes.ERROR_CONNECTION_CLOSED || authenticationResult == SSHAuthResultTypes.ERROR_CONNECTION_TIMEOUT || authenticationResult == SSHAuthResultTypes.ERROR_CONNECTION_RESET || authenticationResult == SSHAuthResultTypes.ERROR_UNKNOWN ) {
 
             // Start error protocol
@@ -70,6 +70,8 @@ public class AutoSSHClientTask implements Callable<Void> {
             } catch (InterruptedException e) {
                 talkerHelper.talkJavaError(this.className, e, ProtocolErrorTypes.SSH);
             }
+        } else if(authenticationResult == SSHAuthResultTypes.ERROR_FALSE_POSITIVE) {
+            this.handleShutdown(SSHAuthResultTypes.ERROR_FALSE_POSITIVE);
         }
     }
 
@@ -97,8 +99,13 @@ public class AutoSSHClientTask implements Callable<Void> {
 
             return SSHAuthResultType;
         }
-        else
-        {
+        else {
+            // Check for false positive
+            if (isFalsePositive(instance))
+            {
+                return SSHAuthResultTypes.ERROR_FALSE_POSITIVE;
+            }
+
             // Close session
             instance.close();
 
@@ -108,20 +115,46 @@ public class AutoSSHClientTask implements Callable<Void> {
     }
 
     /**
+     * Checks if the vulnerable server is a false positive.
+     *
+     * @param sshManagerHelper
+     * @return
+     */
+    private boolean isFalsePositive(SSHManagerHelper sshManagerHelper)
+    {
+        // Check if you can send command
+        String commandResult = sshManagerHelper.sendCommand("ls");
+
+        if(commandResult.equals("\nPlease login: "))
+        {
+            talkerHelper.talkGreatError(className, Config.MESSAGE_PREDICATE_SSH+"False positive detected for server " + server + " with credentials " + user + "/" + pass+".");
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Shuts down remaining threats based on authentication result.
      *
      * @param authResult
      */
-    private void handleShutdown(boolean authResult)
+    private void handleShutdown(SSHAuthResultTypes authResult)
     {
-        if (authResult) {
+        if (authResult == SSHAuthResultTypes.AUTHENTICATED) {
             talkerHelper.talkGreatDebug(className, Config.MESSAGE_PREDICATE_SSH+"Login succeeded for server "+server+". Shutting down all threads.");
-        } else {
+        } else if (authResult == SSHAuthResultTypes.ERROR_CONNECTION_CLOSED){
 
             // Statistics
             Statistics.totalConnectionFailedAndAbortedSSHServer++;
 
             talkerHelper.talkGreatDebug(className, Config.MESSAGE_PREDICATE_SSH+"Connection dropped too many times for server "+server+". Shutting down all threads.");
+        }
+        else if(authResult == SSHAuthResultTypes.ERROR_FALSE_POSITIVE) {
+
+            // Statistics
+            Statistics.totalFalsePositiveSSHServer++;
+            talkerHelper.talkGreatDebug(className, Config.MESSAGE_PREDICATE_SSH+"Dropping connection for "+server+" because false positives have been detected. Shutting down all threads.");
         }
 
         // Shut down all threads
@@ -168,7 +201,7 @@ public class AutoSSHClientTask implements Callable<Void> {
             }
         } else if (errorCounter == 4) {
             talkerHelper.talkGreatError(className, Config.MESSAGE_PREDICATE_SSH+"Connection error reached " + errorCounter + " for server " + server + " with credentials " + user + "/" + pass+".");
-            this.handleShutdown(false);
+            this.handleShutdown(SSHAuthResultTypes.ERROR_CONNECTION_CLOSED);
         }
 
         if(errorCounter < 4)

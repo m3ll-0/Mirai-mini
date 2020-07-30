@@ -1,5 +1,6 @@
 package com.company.Helpers;
 
+import com.company.Constants.Config;
 import com.jcraft.jsch.*;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class SSHManagerHelper
         doCommonConstructorActions(userName, password,
                 connectionIP, knownHostsFileName);
         intConnectionPort = 22;
-        intTimeOut = 60000;
+        intTimeOut = Config.THREAD_SSH_SO_TIMEOUT;
     }
 
     public SSHManagerHelper(String userName, String password, String connectionIP,
@@ -52,7 +53,7 @@ public class SSHManagerHelper
         doCommonConstructorActions(userName, password, connectionIP,
                 knownHostsFileName);
         intConnectionPort = connectionPort;
-        intTimeOut = 60000;
+        intTimeOut = Config.THREAD_SSH_SO_TIMEOUT;
     }
 
     public SSHManagerHelper(String userName, String password, String connectionIP,
@@ -130,12 +131,12 @@ public class SSHManagerHelper
         {
             logWarning(ioX.getMessage());
 
-            return null;
+            return "error";
         }
         catch(JSchException jschX)
         {
             logWarning(jschX.getMessage());
-            return null;
+            return "error";
         }
 
         return outputBuffer.toString();
