@@ -9,10 +9,7 @@ import com.company.Helpers.TalkerHelper;
 import com.company.Models.IP;
 import com.company.Models.Vulnerable;
 import com.company.Tasks.AutoSSHClientTask;
-import com.company.Threads.IPGeneratorThread;
-import com.company.Threads.IPReaderThread;
-import com.company.Threads.ReporterThread;
-import com.company.Threads.SSHVulnerableReporterThread;
+import com.company.Threads.*;
 
 import java.io.IOException;
 import java.net.InetAddress;

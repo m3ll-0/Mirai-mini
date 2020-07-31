@@ -16,14 +16,13 @@ import java.sql.Timestamp;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
-// TODO: Avoid honeypot (see logfile).
 public class AutoTelnetClientTask implements Callable {
 
     private String server;
     private String user;
     private String pass;
     private String className;
-    private boolean directShellAccess = false;
+    private boolean directBashShellAccess = false;
 
     private InputStream in;
     private PrintStream out;
@@ -35,7 +34,7 @@ public class AutoTelnetClientTask implements Callable {
     public AutoTelnetClientTask(String server, String user, String pass, ExecutorService executor)
     {
         this.server = server;
-        this.user = user;
+        this.user = user; //TODO
         this.pass = pass;
 
         this.telnet = new TelnetClient();
@@ -239,7 +238,6 @@ public class AutoTelnetClientTask implements Callable {
             TelnetAuthResultTypes authType = checkAuthTry();
             handleAuthResult(authType, loginType);
 
-
         } catch (InterruptedException e) {
             talkerHelper.talkJavaError(this.className, e, ProtocolErrorTypes.TELNET);
         }
@@ -268,13 +266,29 @@ public class AutoTelnetClientTask implements Callable {
      */
     private void handleAuthResult(TelnetAuthResultTypes authType, TelnetLoginTypes loginType)
     {
+        // Check if we have direct bash shell access (not to be confused with direct shell (passwordless) access)
+        if(authType == TelnetAuthResultTypes.DIRECT_SHELL || authType == TelnetAuthResultTypes.SUCCESS)
+        {
+            write("id");
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            String answer = exhaustAndRetrieveMessage();
+
+            if(answer.contains("uid="))
+            {
+                this.directBashShellAccess = true;
+            }
+        }
+
         // Special case
         if(loginType == TelnetLoginTypes.DIRECT_SHELL)
         {
             talkerHelper.talkGreatSuccess(className, Config.MESSAGE_PREDICATE_TELNET + "<"+ loginType +"> " +"Telnet server " + server + " authentication WITHOUT credentials " + user + "/" + pass + " succeeded (direct shell)!");
-
-            // TODO: Implement feature to detect and exhaust output of command 'id'
-            //            this.directShellAccess = true;
 
             this.handleShutdown(true);
 
@@ -345,7 +359,7 @@ public class AutoTelnetClientTask implements Callable {
      */
     private void sendToReporter()
     {
-        Vulnerable vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()), directShellAccess);
+        Vulnerable vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()), directBashShellAccess);
 
         // Start reporter thread to save into DB
         new Thread(new ReporterThread(vulnerable)).start();
