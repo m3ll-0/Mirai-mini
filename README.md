@@ -27,8 +27,11 @@ app.MAX_TELNET_THREADS=1
 # Latency between SSH threads
 app.THREAD_SSH_LATENCY=5000
 
-# SO Timeout in ms latency of telnet thread
+# SO Timeout in ms of Telnet thread
 app.THREAD_TELNET_SO_TIMEOUT=7000
+
+# SO Timeout in ms of SSH thread
+app.THREAD_SSH_SO_TIMEOUT=7000
 
 # Delay in ms of SSH DB reporter thread
 app.DB_THREAD_DELAY=20000
