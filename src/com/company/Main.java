@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Conn.MariaDB;
+import com.company.Constants.Color;
 import com.company.Constants.Config;
 import com.company.Helpers.ConfigHelper;
 import com.company.Helpers.ExceptionHelper;
@@ -75,17 +76,34 @@ public class Main {
      */
     private static void addStatisticsHook()
     {
+        // TODO: Detect verbose and then set mode
+
         TalkerHelper talkerHelper = TalkerHelper.getInstance();
 
         new Thread(() -> {
 
             while(true)
             {
-                Scanner scanner = new Scanner(System.in);
-                 scanner.nextLine();
+                if(Config.SUPPRESS_OUTPUT) {
 
-                talkerHelper.printDiagnosticDetails();
+                    System.out.print(Color.RESET + "\nCommand: ");
+                    Scanner scanner = new Scanner(System.in);
+                    String command = scanner.nextLine();
 
+                    if(command.equals("s"))
+                    {
+                        talkerHelper.printDiagnosticDetails();
+                    } else if(command.equals("v")) {
+                        Config.SUPPRESS_OUTPUT = false;
+                    }
+
+                } else {
+                    Scanner scanner = new Scanner(System.in);
+                    scanner.nextLine();
+
+                    // Turn on surpress output
+                    Config.SUPPRESS_OUTPUT = true;
+                }
             }
         }).start();
     }

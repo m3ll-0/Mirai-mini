@@ -28,13 +28,13 @@ public class IPScannerThread implements Runnable{
 
     private void process()
     {
-        // Check if IP address is up.
-        if(this.IPScannerHelper.isIpUp(IPaddress, timeOut))
-        {
-            talkerHelper.talkDebug(this.className,"IP Address (" + IPaddress + ") appears to be up!");
-
-            // Statistics
-            Statistics.totalIPUp++;
+//        // Check if IP address is up.
+//        if(this.IPScannerHelper.isIpUp(IPaddress, timeOut))
+//        {
+//            talkerHelper.talkDebug(this.className,"IP Address (" + IPaddress + ") appears to be up!");
+//
+//            // Statistics
+//            Statistics.totalIPUp++;
 
             // Iterate over ports and check if ports are up
             for(int port : portList)
@@ -71,12 +71,12 @@ public class IPScannerThread implements Runnable{
                     talkerHelper.talkError(this.className,"IP Address " + IPaddress + " with port " + port + " is closed.");
                 }
             }
-        }
-        else
-        {
-            talkerHelper.talkError(this.className, "IP Address (" + IPaddress + ") appears to be down.");
-            return;
-        }
+//        }
+//        else
+//        {
+//            talkerHelper.talkError(this.className, "IP Address (" + IPaddress + ") appears to be down.");
+//            return;
+//        }
 
         // Statistics
         Statistics.totalIPScanned++;
