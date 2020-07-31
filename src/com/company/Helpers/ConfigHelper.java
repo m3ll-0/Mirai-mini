@@ -1,5 +1,7 @@
 package com.company.Helpers;
 
+import com.company.Conn.MariaDB;
+import com.company.Constants.Color;
 import com.company.Constants.Config;
 import org.apache.commons.cli.*;
 
@@ -7,7 +9,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.util.Properties;
+import java.util.Scanner;
 
 public class ConfigHelper {
 
@@ -20,7 +24,10 @@ public class ConfigHelper {
         setupTalkerHelper();
 
         // Parse the CLI arguments after setting default configuration so they can be overwritten
-        ConfigHelper.parseCLIArguments(args);
+        parseCLIArguments(args);
+
+        // If database connection fails, abort
+        testDatabaseConnection();
     }
 
     /**
@@ -139,4 +146,108 @@ public class ConfigHelper {
         }
     }
 
+    /**
+     * Add a keylistener to console to print out debugging details
+     */
+    public static void addCLIHook()
+    {
+        TalkerHelper talkerHelper = TalkerHelper.getInstance();
+
+        new Thread(() -> {
+
+            while(true)
+            {
+                if(Config.SUPPRESS_OUTPUT) {
+
+                    System.out.print(Color.RESET + "\nCommand: ");
+                    Scanner scanner = new Scanner(System.in);
+
+                    String command = scanner.nextLine().trim();
+
+                    if(command.startsWith("s"))
+                    {
+                        String subcommand = command.substring(1);
+
+                        if (subcommand.equals("s")) talkerHelper.printDiagnosticDetails();
+                        else if (subcommand.equals("c")) talkerHelper.printConfiguration();
+                        else System.out.println("Information type doesn't exist. Use 'h' command for help.");
+                    }
+                    else if(command.equals("v")) {
+                        Config.SUPPRESS_OUTPUT = false;
+                    }
+                    else if (command.startsWith("c "))
+                    {
+                        try {
+                            String[] subcommand = command.substring(2).split(" ");
+
+                            String configParam = subcommand[0];
+                            String configVal = subcommand[1];
+                            boolean commandExists = true;
+
+                            // parse param
+                            if (configParam.equals("GENERATE_IP_PER_LOOP"))
+                                Config.GENERATE_IP_PER_LOOP = Integer.parseInt(configVal);
+                            else if (configParam.equals("MAX_SSH_THREADS"))
+                                Config.MAX_SSH_THREADS = Integer.parseInt(configVal);
+                            else if (configParam.equals("MAX_TELNET_THREADS"))
+                                Config.MAX_TELNET_THREADS = Integer.parseInt(configVal);
+                            else if (configParam.equals("THREAD_SSH_LATENCY"))
+                                Config.THREAD_SSH_LATENCY = Integer.parseInt(configVal);
+                            else if (configParam.equals("THREAD_SSH_SO_TIMEOUT"))
+                                Config.THREAD_SSH_SO_TIMEOUT = Integer.parseInt(configVal);
+                            else if (configParam.equals("THREAD_TELNET_SO_TIMEOUT"))
+                                Config.THREAD_TELNET_SO_TIMEOUT = Integer.parseInt(configVal);
+                            else if (configParam.equals("DB_THREAD_DELAY"))
+                                Config.DB_THREAD_DELAY = Integer.parseInt(configVal);
+                            else if (configParam.equals("SUPPRESS_OUTPUT"))
+                                Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(configVal);
+                            else if (configParam.equals("IPSCANNER_THREADPOOL_MAX_THREADS"))
+                                Config.IPSCANNER_THREADPOOL_MAX_THREADS = Integer.parseInt(configVal);
+                            else { commandExists = false; System.out.println("Parameter ["+configParam+"] doesn't exist. Check your command."); }
+
+                            if(commandExists) System.out.println("Successfully changed config param: " + subcommand[0] + " -> " + subcommand[1]);
+                        } catch (Exception e)
+                        {
+                            System.out.println("Error changing configuration value. Check your command.");
+                        }
+                    }
+                    else if (command.equals("h"))
+                    {
+                        System.out.println("\n- Available commands");
+                        System.out.println("s (Show) - Show information. Usage: s <type>. Types: [s]tatistics, [c]onfig.");
+                        System.out.println("v (Verbose) - Enable verbose mode.");
+                        System.out.println("c (Change) - Change config variable. Usage: c <param> <val>");
+                    }
+                    else {
+                        System.out.println("Command not found. Press 'h' for help.");
+                    }
+
+                } else {
+                    Scanner scanner = new Scanner(System.in);
+                    scanner.nextLine();
+
+                    // Turn on surpress output
+                    Config.SUPPRESS_OUTPUT = true;
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * Test if the database connection works, if not, abort program.
+     */
+    private static void testDatabaseConnection()
+    {
+        Connection connection = MariaDB.getMariaDBConnection();
+        TalkerHelper talkerHelper = TalkerHelper.getInstance();
+
+        if(connection == null)
+        {
+            talkerHelper.talkGreatError("MAIN", "Connection to DB could not be established! Aborting execution.");
+            System.exit(1);
+        }
+        else {
+            talkerHelper.talkDebug("MAIN", "Connection could be made with database. Server URL: " + Config.MARIADB_SERVER);
+        }
+    }
 }

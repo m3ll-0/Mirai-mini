@@ -1,19 +1,12 @@
 package com.company.Tasks;
 
 import com.company.Constants.*;
-import com.company.Helpers.SSHVulnerableValidationHelper;
-import com.company.Interfaces.DAOFactory;
 import com.company.Factories.VulnerableDAOFactory;
 import com.company.Helpers.SSHManagerHelper;
+import com.company.Helpers.SSHVulnerableValidationHelper;
 import com.company.Helpers.TalkerHelper;
+import com.company.Interfaces.DAOFactory;
 import com.company.Models.Vulnerable;
-import com.company.Threads.ReporterThread;
-import com.sun.deploy.util.SystemUtils;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.sql.Timestamp;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;

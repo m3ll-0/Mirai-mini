@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Conn.MariaDB;
+import com.company.Constants.Color;
 import com.company.Constants.Config;
 import com.company.Helpers.ConfigHelper;
 import com.company.Helpers.ExceptionHelper;
@@ -8,10 +9,7 @@ import com.company.Helpers.TalkerHelper;
 import com.company.Models.IP;
 import com.company.Models.Vulnerable;
 import com.company.Tasks.AutoSSHClientTask;
-import com.company.Threads.IPGeneratorThread;
-import com.company.Threads.IPReaderThread;
-import com.company.Threads.ReporterThread;
-import com.company.Threads.SSHVulnerableReporterThread;
+import com.company.Threads.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -27,7 +25,6 @@ public class Main {
         entryPoint(args);
     }
 
-
     /**
      * Entry point to starting all threads
      */
@@ -37,14 +34,10 @@ public class Main {
         ConfigHelper.setupConfig(args);
 
         // Print banner
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-        talkerHelper.printBanner();
+        TalkerHelper.getInstance().printBanner();
 
-        // If database connection fails, abort
-        testDatabaseConnection();
-
-        // Setup program
-        addStatisticsHook();
+        // Add CLI hook
+        ConfigHelper.addCLIHook();
 
         // Create shared object
         IP ip = new IP();
@@ -68,43 +61,5 @@ public class Main {
         IPGeneratorThread.start();
         IPReaderThread.start();
         SSHVulnerableReporterThread.start();
-    }
-
-    /**
-     * Add a keylistener to console to print out debugging details
-     */
-    private static void addStatisticsHook()
-    {
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-
-        new Thread(() -> {
-
-            while(true)
-            {
-                Scanner scanner = new Scanner(System.in);
-                 scanner.nextLine();
-
-                talkerHelper.printDiagnosticDetails();
-
-            }
-        }).start();
-    }
-
-    /**
-     * Test if the database connection works, if not, abort program.
-     */
-    private static void testDatabaseConnection()
-    {
-        Connection connection = MariaDB.getMariaDBConnection();
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-
-        if(connection == null)
-        {
-            talkerHelper.talkGreatError("MAIN", "Connection to DB could not be established! Aborting execution.");
-            System.exit(1);
-        }
-        else {
-            talkerHelper.talkDebug("MAIN", "Connection could be made with database. Server URL: " + Config.MARIADB_SERVER);
-        }
     }
 }

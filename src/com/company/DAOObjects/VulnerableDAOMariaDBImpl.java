@@ -40,7 +40,6 @@ public class VulnerableDAOMariaDBImpl implements VulnerableDAO {
                     ");";
 
             stmt.execute(sql);
-            System.out.println(sql);
             talkerHelper.talkGreatSuccess(className, "Inserted record into database for server " + vulnerable.getServer() +"!");
 
         } catch (SQLException e) {

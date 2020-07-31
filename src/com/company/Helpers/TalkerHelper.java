@@ -194,23 +194,7 @@ public class TalkerHelper {
         System.out.print("|_|  |_| |___|  |_|_\\   /_/ \\_\\  |___|  ");
         talkerHelper.printGreenBannerLine(" ~~~ MINI \n");
 
-        System.out.println("\n***** DIAGNOSTICS *****");
-        System.out.println( "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
-        System.out.println( "Available Processor: " + Runtime.getRuntime().availableProcessors());
-        System.out.println("\n***** CONFIGURATION *****");
-        System.out.println("MAX_TELNET_THREADS: " + Config.MAX_TELNET_THREADS);
-        System.out.println("MAX_SSH_THREADS: " + Config.MAX_SSH_THREADS);
-        System.out.println("IPSCANNER_THREADPOOL_MAX_THREADS: " + Config.IPSCANNER_THREADPOOL_MAX_THREADS);
-        System.out.println("GENERATE_IP_PER_LOOP: " + Config.GENERATE_IP_PER_LOOP);
-        System.out.println("THREAD_SSH_LATENCY: " + Config.THREAD_SSH_LATENCY);
-        System.out.println("THREAD_SSH_SO_TIMEOUT: " + Config.THREAD_SSH_SO_TIMEOUT);
-        System.out.println("THREAD_TELNET_SO_TIMEOUT: " + Config.THREAD_TELNET_SO_TIMEOUT);
-        System.out.println("SUPPRESS_OUTPUT: " + Config.SUPPRESS_OUTPUT);
-        System.out.println("DB_THREAD_DELAY: " + Config.DB_THREAD_DELAY);
-        System.out.println("MARIADB_SERVER: " + Config.MARIADB_SERVER);
-        System.out.println("MARIADB_DATABASE: " + Config.MARIADB_DATABASE);
-        System.out.println("MARIADB_USER: " + Config.MARIADB_USER);
-        System.out.println("MARIADB_PASS: " + "-Omitted-");
+        this.printConfiguration();
 
         System.out.println(Color.RESET + "\n");
 
@@ -232,7 +216,28 @@ public class TalkerHelper {
             }
         }
 
-        System.out.println("\n");
+        System.out.print("Program started!\n");
+    }
+
+    public void printConfiguration()
+    {
+        System.out.println("\n***** DIAGNOSTICS *****");
+        System.out.println( "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
+        System.out.println( "Available Processor: " + Runtime.getRuntime().availableProcessors());
+        System.out.println("\n***** CONFIGURATION *****");
+        System.out.println("MAX_TELNET_THREADS: " + Config.MAX_TELNET_THREADS);
+        System.out.println("MAX_SSH_THREADS: " + Config.MAX_SSH_THREADS);
+        System.out.println("IPSCANNER_THREADPOOL_MAX_THREADS: " + Config.IPSCANNER_THREADPOOL_MAX_THREADS);
+        System.out.println("GENERATE_IP_PER_LOOP: " + Config.GENERATE_IP_PER_LOOP);
+        System.out.println("THREAD_SSH_LATENCY: " + Config.THREAD_SSH_LATENCY);
+        System.out.println("THREAD_SSH_SO_TIMEOUT: " + Config.THREAD_SSH_SO_TIMEOUT);
+        System.out.println("THREAD_TELNET_SO_TIMEOUT: " + Config.THREAD_TELNET_SO_TIMEOUT);
+        System.out.println("SUPPRESS_OUTPUT: " + Config.SUPPRESS_OUTPUT);
+        System.out.println("DB_THREAD_DELAY: " + Config.DB_THREAD_DELAY);
+        System.out.println("MARIADB_SERVER: " + Config.MARIADB_SERVER);
+        System.out.println("MARIADB_DATABASE: " + Config.MARIADB_DATABASE);
+        System.out.println("MARIADB_USER: " + Config.MARIADB_USER);
+        System.out.println("MARIADB_PASS: " + "-Omitted-");
     }
 
     /**

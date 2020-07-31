@@ -1,10 +1,6 @@
 package com.company.Helpers;
 
 import com.company.Models.Credential;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.MultiMapUtils.*;
-import org.apache.commons.collections4.multimap.HashSetValuedHashMap;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -12,7 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class IPScannerHelper {
