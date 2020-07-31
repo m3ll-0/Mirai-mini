@@ -13,6 +13,9 @@ import com.company.Threads.IPReaderThread;
 import com.company.Threads.ReporterThread;
 import com.company.Threads.SSHVulnerableReporterThread;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.Timestamp;
 import java.util.Scanner;

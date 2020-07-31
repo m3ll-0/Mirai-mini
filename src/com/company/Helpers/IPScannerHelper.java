@@ -17,11 +17,6 @@ import java.util.List;
 
 public class IPScannerHelper {
 
-    public IPScannerHelper()
-    {
-
-    }
-
     public boolean isPortOpen(String ip, int port, int timeOut)
     {
         try {
@@ -37,6 +32,9 @@ public class IPScannerHelper {
 
     public boolean isIpUp(String host, int timeOut)
     {
+
+        // todo implement rocksaw
+
         InetAddress ip = null;
         boolean isReachable = false;
 

@@ -6,7 +6,7 @@ import com.company.Helpers.TalkerHelper;
 
 public class IPScannerThread implements Runnable{
 
-    private final int timeOut = 3000;
+    private final int timeOut = 3000; // TODO: imp in config
     private String IPaddress;
     private TalkerHelper talkerHelper;
     private com.company.Helpers.IPScannerHelper IPScannerHelper;
