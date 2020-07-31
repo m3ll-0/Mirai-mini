@@ -28,7 +28,6 @@ public class Main {
         entryPoint(args);
     }
 
-
     /**
      * Entry point to starting all threads
      */
@@ -38,14 +37,10 @@ public class Main {
         ConfigHelper.setupConfig(args);
 
         // Print banner
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-        talkerHelper.printBanner();
+        TalkerHelper.getInstance().printBanner();
 
-        // If database connection fails, abort
-        testDatabaseConnection();
-
-        // Setup program
-        addStatisticsHook();
+        // Add CLI hook
+        ConfigHelper.addCLIHook();
 
         // Create shared object
         IP ip = new IP();
@@ -69,60 +64,5 @@ public class Main {
         IPGeneratorThread.start();
         IPReaderThread.start();
         SSHVulnerableReporterThread.start();
-    }
-
-    /**
-     * Add a keylistener to console to print out debugging details
-     */
-    private static void addStatisticsHook()
-    {
-        // TODO: Detect verbose and then set mode
-
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-
-        new Thread(() -> {
-
-            while(true)
-            {
-                if(Config.SUPPRESS_OUTPUT) {
-
-                    System.out.print(Color.RESET + "\nCommand: ");
-                    Scanner scanner = new Scanner(System.in);
-                    String command = scanner.nextLine();
-
-                    if(command.equals("s"))
-                    {
-                        talkerHelper.printDiagnosticDetails();
-                    } else if(command.equals("v")) {
-                        Config.SUPPRESS_OUTPUT = false;
-                    }
-
-                } else {
-                    Scanner scanner = new Scanner(System.in);
-                    scanner.nextLine();
-
-                    // Turn on surpress output
-                    Config.SUPPRESS_OUTPUT = true;
-                }
-            }
-        }).start();
-    }
-
-    /**
-     * Test if the database connection works, if not, abort program.
-     */
-    private static void testDatabaseConnection()
-    {
-        Connection connection = MariaDB.getMariaDBConnection();
-        TalkerHelper talkerHelper = TalkerHelper.getInstance();
-
-        if(connection == null)
-        {
-            talkerHelper.talkGreatError("MAIN", "Connection to DB could not be established! Aborting execution.");
-            System.exit(1);
-        }
-        else {
-            talkerHelper.talkDebug("MAIN", "Connection could be made with database. Server URL: " + Config.MARIADB_SERVER);
-        }
     }
 }
