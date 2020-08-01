@@ -3,6 +3,8 @@ package com.company.Helpers;
 import com.company.Conn.MariaDB;
 import com.company.Constants.Color;
 import com.company.Constants.Config;
+import com.company.Constants.Statistics;
+import com.company.Models.Vulnerable;
 import org.apache.commons.cli.*;
 
 import java.io.FileInputStream;
@@ -160,8 +162,8 @@ public class ConfigHelper {
                 if(Config.SUPPRESS_OUTPUT) {
 
                     System.out.print(Color.RESET + "\nCommand: ");
-                    Scanner scanner = new Scanner(System.in);
 
+                    Scanner scanner = new Scanner(System.in);
                     String command = scanner.nextLine().trim();
 
                     if(command.startsWith("s"))
@@ -201,8 +203,7 @@ public class ConfigHelper {
                                 Config.DB_THREAD_DELAY = Integer.parseInt(configVal);
                             else if (configParam.equals("SUPPRESS_OUTPUT"))
                                 Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(configVal);
-                            else if (configParam.equals("IPSCANNER_THREADPOOL_MAX_THREADS"))
-                                Config.IPSCANNER_THREADPOOL_MAX_THREADS = Integer.parseInt(configVal);
+                            else if (configParam.equals("IPSCANNER_THREADPOOL_MAX_THREADS")) { System.out.println("Error: This option requires a restart!"); continue;}
                             else { commandExists = false; System.out.println("Parameter ["+configParam+"] doesn't exist. Check your command."); }
 
                             if(commandExists) System.out.println("Successfully changed config param: " + subcommand[0] + " -> " + subcommand[1]);
@@ -210,6 +211,28 @@ public class ConfigHelper {
                         {
                             System.out.println("Error changing configuration value. Check your command.");
                         }
+                    }
+                    else if (command.equals("q"))
+                    {
+                        // Check if there are vulnerable SSH servers pending
+                        int pendingVulnerableSSHServers = SSHVulnerableValidationHelper.getSharedVulnerableSSHList().size();
+
+                        if(pendingVulnerableSSHServers > 0)
+                        {
+                            System.out.print("There are still vulnerable SSH servers pending, are you sure (y/N): ");
+                            String quitCommand = scanner.nextLine().trim();
+
+                            if(!quitCommand.equals("y")) {
+                                continue;
+                            } else {
+                                talkerHelper.talkDebug("ConfigHelper", "Shutting down all threads per user request.");
+                                System.exit(1);
+                            }
+                        }
+
+                        talkerHelper.talkDebug("ConfigHelper", "Shutting down all threads per user request.");
+                        System.exit(1);
+
                     }
                     else if (command.equals("h"))
                     {
