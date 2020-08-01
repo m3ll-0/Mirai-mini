@@ -216,8 +216,6 @@ public class ConfigHelper {
                     else if (command.equals("q"))
                     {
                         // Check if there are vulnerable SSH servers pending
-                        SSHVulnerableValidationHelper.insert(new Vulnerable("", "", "", "", null, false));
-
                         int pendingVulnerableSSHServers = SSHVulnerableValidationHelper.getSharedVulnerableSSHList().size();
 
                         if(pendingVulnerableSSHServers > 0)
