@@ -253,7 +253,6 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "[General Statistics]");
-        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "---------------------------------------------------------------------------------");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Processor: " + Runtime.getRuntime().availableProcessors());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of threads: " + Thread.getAllStackTraces().keySet().size());
