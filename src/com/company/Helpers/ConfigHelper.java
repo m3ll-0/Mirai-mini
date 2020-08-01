@@ -203,8 +203,7 @@ public class ConfigHelper {
                                 Config.DB_THREAD_DELAY = Integer.parseInt(configVal);
                             else if (configParam.equals("SUPPRESS_OUTPUT"))
                                 Config.SUPPRESS_OUTPUT = Boolean.parseBoolean(configVal);
-                            else if (configParam.equals("IPSCANNER_THREADPOOL_MAX_THREADS"))
-                                Config.IPSCANNER_THREADPOOL_MAX_THREADS = Integer.parseInt(configVal);
+                            else if (configParam.equals("IPSCANNER_THREADPOOL_MAX_THREADS")) { System.out.println("Error: This option requires a restart!"); continue;}
                             else { commandExists = false; System.out.println("Parameter ["+configParam+"] doesn't exist. Check your command."); }
 
                             if(commandExists) System.out.println("Successfully changed config param: " + subcommand[0] + " -> " + subcommand[1]);
