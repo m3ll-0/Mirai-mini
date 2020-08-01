@@ -281,7 +281,6 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of false positive vulnerable SSH servers: " + Statistics.totalFalsePositiveSSHServer);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of aborted by SSH servers: " + Statistics.totalConnectionFailedAndAbortedSSHServer);
         System.out.println();
-        System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
     }
