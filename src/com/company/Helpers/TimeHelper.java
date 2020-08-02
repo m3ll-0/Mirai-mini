@@ -18,9 +18,7 @@ public class TimeHelper {
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
         long hoursInMilli = minutesInMilli * 60;
-
-        // MAKE DOUBLE AND CHECK IF devision
-
+        
         long elapsedHours = different / hoursInMilli;
         double x =(double)   different / (double) hoursInMilli;
 
