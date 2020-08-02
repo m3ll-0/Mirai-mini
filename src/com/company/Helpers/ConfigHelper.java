@@ -243,7 +243,7 @@ public class ConfigHelper {
                     else if (command.equals("h"))
                     {
                         System.out.println("\n- Available commands");
-                        System.out.println("s (Show) - Show information. Usage: s <type>. Types: [s]tatistics, [c]onfig.");
+                        System.out.println("s (Show) - Show information. Usage: s<type>. Types: [s]tatistics, [c]onfig.");
                         System.out.println("v (Verbose) - Enable verbose mode.");
                         System.out.println("c (Change) - Change config variable. Usage: c <param> <val>");
                     }
