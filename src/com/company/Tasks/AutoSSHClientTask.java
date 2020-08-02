@@ -145,8 +145,6 @@ public class AutoSSHClientTask implements Callable<Void> {
                 this.directShellAccess = true;
                 talkerHelper.talkGreatSuccess(className, Config.MESSAGE_PREDICATE_SSH+"Direct shell detected for server " + server + " with credentials " + user + "/" + pass + "!");
             }
-
-            // TODO debug commandOutput
         }
 
         return FalsePositives.FALSE_POSITIVES_NO;

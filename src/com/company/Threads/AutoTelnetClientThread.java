@@ -19,12 +19,14 @@ public class AutoTelnetClientThread implements Runnable {
     private String className;
     private IPScannerHelper ipScannerHelper;
     private String server;
+    private boolean isPort2323;
 
-    public AutoTelnetClientThread(String server) {
+    public AutoTelnetClientThread(String server, boolean isPort2323) {
         this.server = server;
         this.talkerHelper = TalkerHelper.getInstance();
         this.className = AutoTelnetClientThread.class.getSimpleName();
         this.ipScannerHelper = new IPScannerHelper();
+        this.isPort2323 = isPort2323;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class AutoTelnetClientThread implements Runnable {
             talkerHelper.talkInfo(this.className, "Starting Telnet task " + "[" + mapCounter + "/" + mapLength + "]" + " for server " + server + " with credentials: " + user + "/" + pass);
 
             try {
-                executor.submit(new AutoTelnetClientTask(server, user, pass, executor));
+                executor.submit(new AutoTelnetClientTask(server, user, pass, executor, isPort2323));
             }
             catch (Exception e)
             {

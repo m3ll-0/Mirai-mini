@@ -11,7 +11,7 @@ public class IPScannerThread implements Runnable{
     private TalkerHelper talkerHelper;
     private com.company.Helpers.IPScannerHelper IPScannerHelper;
     private String className;
-    private int[] portList = {22, 23};
+    private int[] portList = {22, 23, 2323};
 
     public IPScannerThread(String IPaddress)
     {
@@ -28,55 +28,50 @@ public class IPScannerThread implements Runnable{
 
     private void process()
     {
-//        // Check if IP address is up.
-//        if(this.IPScannerHelper.isIpUp(IPaddress, timeOut))
-//        {
-//            talkerHelper.talkDebug(this.className,"IP Address (" + IPaddress + ") appears to be up!");
-//
-//            // Statistics
-//            Statistics.totalIPUp++;
-
-            // Iterate over ports and check if ports are up
-            for(int port : portList)
+        // Iterate over ports and check if ports are up
+        for(int port : portList)
+        {
+            if(this.IPScannerHelper.isPortOpen(IPaddress, port, timeOut))
             {
-                if(this.IPScannerHelper.isPortOpen(IPaddress, port, timeOut))
+                // Port is open
+                talkerHelper.talkSuccess(this.className,"IP Address " + IPaddress + " with port " + port + " is open!");
+
+                if(port == 22)
                 {
-                    // Port is open
-                    talkerHelper.talkSuccess(this.className,"IP Address " + IPaddress + " with port " + port + " is open!");
+                    // Statistics
+                    Statistics.totalIPSSHPortOpen++;
 
-                    if(port == 22)
-                    {
-                        // Statistics
-                        Statistics.totalIPSSHPortOpen++;
+                   new Thread(new AutoSSHClientThread(IPaddress)).start();
 
-//                        MasterThread.submitToExecutor(ThreadTypes.SSH_Pool_Thread, new AutoSSHClientThread(IPaddress));
-                       new Thread(new AutoSSHClientThread(IPaddress)).start();
-
-                        // Scan SSH port
-                        talkerHelper.talkInfo(this.className, "Starting SSH thread for server" + IPaddress);
-                    }
-                    else if(port == 23)
-                    {
-                        // Statistics
-                        Statistics.totalIPTelnetPortsOpen++;
-
-                        // Start multiple treads to iterate through keypair list.
-                      new Thread(new AutoTelnetClientThread(IPaddress)).start();
-                      talkerHelper.talkInfo(this.className, "Starting Telnet thread for server" + IPaddress);
-                    }
+                    // Scan SSH port
+                    talkerHelper.talkInfo(this.className, "Starting SSH thread for server" + IPaddress);
                 }
-                else
+                else if(port == 23)
                 {
-                    // Port is closed
-                    talkerHelper.talkError(this.className,"IP Address " + IPaddress + " with port " + port + " is closed.");
+                    // Statistics
+                    Statistics.totalIPTelnetPortsOpen++;
+
+                    // Start multiple treads to iterate through keypair list.
+                  new Thread(new AutoTelnetClientThread(IPaddress, false)).start();
+                  talkerHelper.talkInfo(this.className, "Starting Telnet thread for server" + IPaddress);
+                }
+                else if(port == 2323)
+                {
+//                    System.out.println(IPaddress); todo
+                    // Statistics
+                    Statistics.totalIPTelnetPortsOpen++;
+
+                    // Start multiple treads to iterate through keypair list.
+                    new Thread(new AutoTelnetClientThread(IPaddress, true)).start();
+                    talkerHelper.talkInfo(this.className, "Starting Telnet thread for server" + IPaddress);
                 }
             }
-//        }
-//        else
-//        {
-//            talkerHelper.talkError(this.className, "IP Address (" + IPaddress + ") appears to be down.");
-//            return;
-//        }
+            else
+            {
+                // Port is closed
+                talkerHelper.talkError(this.className,"IP Address " + IPaddress + " with port " + port + " is closed.");
+            }
+        }
 
         // Statistics
         Statistics.totalIPScanned++;
