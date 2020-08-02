@@ -46,8 +46,11 @@ public class IPReaderThread implements Runnable {
                 {
                     String IPAddress = null;
 
+
                     try {
                         IPAddress = ip.getAtOffset(offset);
+//                        IPAddress = ip.getAtOffset(10000001);
+
                     }
                     catch (Exception e)
                     {
@@ -56,9 +59,14 @@ public class IPReaderThread implements Runnable {
 
                         if(indexErrorCounter > 10)
                         {
-                            // Reset
                             talkerHelper.talkDebug(className, "Error limit reached! Resetting IP list.");
-                            continue;
+
+                            // Reset
+                            this.ip.reset();
+                            prevLength = 0;
+                            curLength = 0;
+
+                            break;
                         }
                     }
 
@@ -67,7 +75,7 @@ public class IPReaderThread implements Runnable {
                         talkerHelper.talkDebug(className, "IP address is null for offset " + offset + ", skipping.");
                     } else {
                         talkerHelper.talkDebug(this.className, IPAddress);
-//                        new Thread(new IPScannerThread(IPAddress)).start();
+
                         ThreadHelper.IPScannerThreadPoolExecutor.submit((new IPScannerThread(IPAddress)));
                     }
                 }
