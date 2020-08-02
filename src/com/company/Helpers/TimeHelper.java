@@ -24,7 +24,6 @@ public class TimeHelper {
         long elapsedHours = different / hoursInMilli;
         double x =(double)   different / (double) hoursInMilli;
 
-        System.out.println(x);
         different = different % hoursInMilli;
 
 

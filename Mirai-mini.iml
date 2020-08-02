@@ -13,5 +13,6 @@
     <orderEntry type="library" name="jsch-0.1.55" level="project" />
     <orderEntry type="library" name="mariadb-java-client-2.6.1" level="project" />
     <orderEntry type="library" name="commons-net-1.4.1" level="project" />
+    <orderEntry type="library" name="commons-math3-3.6.1" level="project" />
   </component>
 </module>
