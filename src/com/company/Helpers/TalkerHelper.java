@@ -227,6 +227,7 @@ public class TalkerHelper {
 
     public void printConfiguration()
     {
+        System.out.print(Color.RESET +"" + Color.BLACK_BACKGROUND_GREEN_FOREGROUND);
         System.out.println("\n***** DIAGNOSTICS *****");
         System.out.println( "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
         System.out.println( "Available Processor: " + Runtime.getRuntime().availableProcessors());
