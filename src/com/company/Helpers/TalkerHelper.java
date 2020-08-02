@@ -4,8 +4,13 @@ import com.company.Constants.Color;
 import com.company.Constants.Config;
 import com.company.Constants.ProtocolErrorTypes;
 import com.company.Constants.Statistics;
+import org.apache.commons.net.ntp.TimeStamp;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class TalkerHelper {
 
@@ -253,6 +258,7 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "[General Statistics]");
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Time elapsed: " + getDateDifference(Statistics.startTimeStamp, new Date()));
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Processor: " + Runtime.getRuntime().availableProcessors());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of threads: " + Thread.getAllStackTraces().keySet().size());
@@ -283,6 +289,32 @@ public class TalkerHelper {
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
+    }
+
+    /**
+     * Returns the string of difference between two dates
+     *
+     * @param startDate
+     * @param endDate
+     */
+    public String getDateDifference(Date startDate, Date endDate){
+
+        //milliseconds
+        long different = endDate.getTime() - startDate.getTime();
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        return elapsedHours + " hours, " + elapsedMinutes + " minutes, " + elapsedSeconds + " seconds";
     }
 
     /**

@@ -49,8 +49,6 @@ public class IPReaderThread implements Runnable {
 
                     try {
                         IPAddress = ip.getAtOffset(offset);
-//                        IPAddress = ip.getAtOffset(10000001);
-
                     }
                     catch (Exception e)
                     {
