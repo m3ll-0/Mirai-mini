@@ -12,6 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -30,6 +33,9 @@ public class ConfigHelper {
 
         // If database connection fails, abort
         testDatabaseConnection();
+
+        // Setup time
+        Statistics.startTimeStamp = new Date();
     }
 
     /**
@@ -237,7 +243,7 @@ public class ConfigHelper {
                     else if (command.equals("h"))
                     {
                         System.out.println("\n- Available commands");
-                        System.out.println("s (Show) - Show information. Usage: s <type>. Types: [s]tatistics, [c]onfig.");
+                        System.out.println("s (Show) - Show information. Usage: s<type>. Types: [s]tatistics, [c]onfig.");
                         System.out.println("v (Verbose) - Enable verbose mode.");
                         System.out.println("c (Change) - Change config variable. Usage: c <param> <val>");
                     }

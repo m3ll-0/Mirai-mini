@@ -23,6 +23,7 @@ public class AutoTelnetClientTask implements Callable {
     private String pass;
     private String className;
     private boolean directBashShellAccess = false;
+    private boolean isPort2323;
 
     private InputStream in;
     private PrintStream out;
@@ -31,16 +32,17 @@ public class AutoTelnetClientTask implements Callable {
     private TalkerHelper talkerHelper;
     private ExecutorService executor;
 
-    public AutoTelnetClientTask(String server, String user, String pass, ExecutorService executor)
+    public AutoTelnetClientTask(String server, String user, String pass, ExecutorService executor, boolean isPort2323)
     {
         this.server = server;
-        this.user = user; //TODO
+        this.user = user;
         this.pass = pass;
 
         this.telnet = new TelnetClient();
         this.talkerHelper = TalkerHelper.getInstance();
         this.className = AutoTelnetClientTask.class.getSimpleName();
         this.executor = executor;
+        this.isPort2323 = isPort2323;
     }
 
     @Override
@@ -64,7 +66,8 @@ public class AutoTelnetClientTask implements Callable {
                 this.pass = "";
             }
 
-            telnet.connect(server, 23);
+            if(!isPort2323) telnet.connect(server, 23);
+            else telnet.connect(server, 2323);
 
             // Set SO timeout
             telnet.setSoTimeout(Config.THREAD_TELNET_SO_TIMEOUT);
@@ -359,7 +362,14 @@ public class AutoTelnetClientTask implements Callable {
      */
     private void sendToReporter()
     {
-        Vulnerable vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()), directBashShellAccess);
+        Vulnerable vulnerable;
+
+        if(!isPort2323)
+        {
+            vulnerable = new Vulnerable(server, user, pass, "TELNET", new Timestamp(System.currentTimeMillis()), directBashShellAccess);
+        } else {
+            vulnerable = new Vulnerable(server, user, pass, "TELNET (2323)", new Timestamp(System.currentTimeMillis()), directBashShellAccess);
+        }
 
         // Start reporter thread to save into DB
         new Thread(new ReporterThread(vulnerable)).start();

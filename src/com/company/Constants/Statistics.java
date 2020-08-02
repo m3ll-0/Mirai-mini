@@ -1,5 +1,9 @@
 package com.company.Constants;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class Statistics {
 
     // IP statistics
@@ -21,4 +25,6 @@ public class Statistics {
     public static volatile long totalCleanVulnerableSSHServer = 0;
     public static volatile long totalFalsePositiveSSHServer = 0;
 
+    // Time statistics
+    public static volatile Date startTimeStamp;
 }

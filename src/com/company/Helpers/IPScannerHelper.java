@@ -27,9 +27,6 @@ public class IPScannerHelper {
 
     public boolean isIpUp(String host, int timeOut)
     {
-
-        // todo implement rocksaw
-
         InetAddress ip = null;
         boolean isReachable = false;
 
