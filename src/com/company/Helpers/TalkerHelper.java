@@ -250,6 +250,10 @@ public class TalkerHelper {
      */
     public void printDiagnosticDetails()
     {
+        // Time Statistics
+        long[] dateDiffValRounded = TimeHelper.getRoundedDateDifference(Statistics.startTimeStamp, new Date());
+        double[] dateDiffValExact = TimeHelper.getExactDateDifference(Statistics.startTimeStamp, new Date());
+
         System.out.println(Color.RESET);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
@@ -258,7 +262,7 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "[General Statistics]");
-        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Time elapsed: " + getDateDifference(Statistics.startTimeStamp, new Date()));
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Time elapsed: " + dateDiffValRounded[2] + " hours, " + dateDiffValRounded[1] + " minutes, " + dateDiffValRounded[0] + " seconds");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Memory: " + Runtime.getRuntime().freeMemory()+"/" +Runtime.getRuntime().maxMemory());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Available Processor: " + Runtime.getRuntime().availableProcessors());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of threads: " + Thread.getAllStackTraces().keySet().size());
@@ -269,6 +273,7 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's generated: " + Statistics.totalIPGenerated);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's up: " + Statistics.totalIPUp);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's scanned: " + Statistics.totalIPScanned);
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Average IP's scans per hour: " + ( dateDiffValExact[2] == 0 ? Statistics.totalIPScanned : ( (double) Statistics.totalIPScanned / dateDiffValExact[2])));
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's found with with Telnet port open: " + Statistics.totalIPTelnetPortsOpen);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of IP's found with with SSH port open: " + Statistics.totalIPSSHPortOpen);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "---------------------------------------------------------------------------------");
@@ -278,6 +283,7 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of Telnet servers with direct shell access (no auth): " + Statistics.totalTelnetNoAuthDirectShell);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of unknown authentication Telnet servers: " + Statistics.totalUnknownTelnetAuth);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of refused connections for Telnet servers: " + Statistics.totalTelnetConnectionRefused);
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Average vulnerable Telnet servers per hour: " + ( dateDiffValExact[2] == 0 ? Statistics.totalVulnerableTelnetServer : ( (double) Statistics.totalVulnerableTelnetServer / dateDiffValExact[2])));
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "---------------------------------------------------------------------------------");
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "[SSH Statistics]");
@@ -286,35 +292,10 @@ public class TalkerHelper {
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of pending vulnerable SSH servers: " + SSHVulnerableValidationHelper.getSharedVulnerableSSHList().size());
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of false positive vulnerable SSH servers: " + Statistics.totalFalsePositiveSSHServer);
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Total number of aborted by SSH servers: " + Statistics.totalConnectionFailedAndAbortedSSHServer);
+        System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "Average vulnerable SSH servers per hour: " + ( dateDiffValExact[2] == 0 ? Statistics.totalCleanVulnerableSSHServer : ( (double) Statistics.totalCleanVulnerableSSHServer / (double) dateDiffValExact[2])));
         System.out.println();
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
         System.out.println(Color.YELLOW_BACKGROUND_BLACK_FOREGROUND + "***************************************************************************");
-    }
-
-    /**
-     * Returns the string of difference between two dates
-     *
-     * @param startDate
-     * @param endDate
-     */
-    public String getDateDifference(Date startDate, Date endDate){
-
-        //milliseconds
-        long different = endDate.getTime() - startDate.getTime();
-
-        long secondsInMilli = 1000;
-        long minutesInMilli = secondsInMilli * 60;
-        long hoursInMilli = minutesInMilli * 60;
-
-        long elapsedHours = different / hoursInMilli;
-        different = different % hoursInMilli;
-
-        long elapsedMinutes = different / minutesInMilli;
-        different = different % minutesInMilli;
-
-        long elapsedSeconds = different / secondsInMilli;
-
-        return elapsedHours + " hours, " + elapsedMinutes + " minutes, " + elapsedSeconds + " seconds";
     }
 
     /**
